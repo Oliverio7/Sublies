@@ -14,17 +14,26 @@ struct Subscription: Identifiable{
     let dueDate: String
 }
 
-let sampleSubs=[
+/*let sampleSubs=[
     Subscription(name: "Netflix", price: "15.99", dueDate: "2025-05-22"),
     
     Subscription(name: "Spotify", price: "5.99", dueDate: "2025-05-22")
-]
+]*/
 
 struct ContentView: View{
     @State private var isPaid = false
+    
+    @State private var subscriptions = [
+        Subscription(name: "Netflix", price: "15.99", dueDate: "2025-05-22"),
+        
+        Subscription(name: "Spotify", price: "5.99", dueDate: "2025-05-22")
+    ]
+    
+    @State private var showingAddSheet = false
+    
     var body: some View{
         NavigationView{
-            List(sampleSubs){ sub in
+            List(subscriptions){ sub in
                 VStack(alignment:.leading){
                     Text(sub.name).font(.headline)
                     Text("\(sub.price) due on \(sub.dueDate)").font(.subheadline)
@@ -34,8 +43,11 @@ struct ContentView: View{
             .navigationTitle("Sublies")
             .toolbar{
                 Button("Add"){
-                    print("add tapped")
+                    showingAddSheet = true
                 }
+            }
+            .sheet(isPresented: $showingAddSheet) {
+                AddSubscriptionView(subscriptions: $subscriptions)
             }
         }
     }
