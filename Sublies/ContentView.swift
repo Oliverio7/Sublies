@@ -21,13 +21,21 @@ let sampleSubs=[
 ]
 
 struct ContentView: View{
+    @State private var isPaid = false
     var body: some View{
-        Text("Subs")
-            .font(.system(size: 34, weight: .bold))
-        List(sampleSubs){ sub in
-            VStack(alignment:.leading){
-                Text(sub.name).font(.headline)
-                Text("\(sub.price) due on \(sub.dueDate)").font(.subheadline)
+        NavigationView{
+            List(sampleSubs){ sub in
+                VStack(alignment:.leading){
+                    Text(sub.name).font(.headline)
+                    Text("\(sub.price) due on \(sub.dueDate)").font(.subheadline)
+                    Toggle("Paid", isOn: $isPaid)
+                }.padding(.top)
+            }
+            .navigationTitle("Sublies")
+            .toolbar{
+                Button("Add"){
+                    print("add tapped")
+                }
             }
         }
     }
